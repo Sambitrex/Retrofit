@@ -18,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
                 NetworkService.getInstance()
                         .getJSONApi()
                         .getAllCurrencies()
@@ -27,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<List<Currencies>> call, Response<List<Currencies>> response) {
                                 List<Currencies> list = response.body();
 
-                                Log.d("MyLog", list.get(0).getCur_Name());
-                                Log.d("MyLog", String.valueOf(list.get(0).getCur_Scale()));
-                                Log.d("MyLog", String.valueOf(list.get(0).getCur_OfficialRate()));
+                                for(Currencies cur : list) {
+                                    Log.d("MyLog", cur.getCur_Name());
+                                    Log.d("MyLog", String.valueOf(cur.getCur_Scale()));
+                                    Log.d("MyLog", String.valueOf(cur.getCur_OfficialRate()));
+                                }
                             }
 
                             @Override
@@ -37,5 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         });
+
+            }
+        }).start();
     }
 }

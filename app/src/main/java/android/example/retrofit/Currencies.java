@@ -8,7 +8,7 @@ public class Currencies {
     @Expose
     private int Cur_ID;
 
-    @SerializedName("Date")
+    @SerializedName("Da te")
     @Expose
     private String Date;
 
