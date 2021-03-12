@@ -32,25 +32,19 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<List<Currencies>> call, Response<List<Currencies>> response) {
                                 List<Currencies> list = response.body();
-                                Log.d("MyLog", list.get(0).getCur_Name());
                                 setAdapter(list);
 
                             }
 
                             @Override
                             public void onFailure(Call<List<Currencies>> call, Throwable t) {
-
+                                t.printStackTrace();
                             }
-
                         });
-
             }
         });
 
         parseThread.start();
-
-
-
     }
 
     public void setAdapter(List<Currencies> list){
