@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Retrofit</string>
+    <string name="country_image">Country image</string>
+    <string name="name">Name</string>
+    <string name="cur_value">1 cur = 1 rub</string>
 </resources>
