@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<List<Currencies>> call, Response<List<Currencies>> response) {
                                 List<Currencies> list = response.body();
                                 setAdapter(list);
-
                             }
 
                             @Override
