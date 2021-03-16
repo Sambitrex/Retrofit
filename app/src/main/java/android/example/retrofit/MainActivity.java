@@ -1,6 +1,7 @@
 package android.example.retrofit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +16,34 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     ListView listView;
+    SwipeRefreshLayout swipe;
+    CurrenciesListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.listView);
+        swipe = findViewById(R.id.pullToRefresh);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                parseData();
+                swipe.setRefreshing(false);
+            }
+        });
+        parseData();
+    }
 
-       Thread parseThread =  new Thread(new Runnable() {
+    public void setAdapter(List<Currencies> list){
+        adapter = new CurrenciesListAdapter(this, R.layout.adapter_view_list, new ArrayList<Currencies>(list));
+        listView.setAdapter(adapter);
+
+    }
+
+    private void parseData(){
+        Thread parseThread =  new Thread(new Runnable() {
             @Override
             public void run() {
                 NetworkService.getInstance()
@@ -42,13 +63,6 @@ public class MainActivity extends AppCompatActivity {
                         });
             }
         });
-
         parseThread.start();
-    }
-
-    public void setAdapter(List<Currencies> list){
-        CurrenciesListAdapter adapter =
-                new CurrenciesListAdapter(this, R.layout.adapter_view_list, new ArrayList<Currencies>(list));
-        listView.setAdapter(adapter);
     }
 }
